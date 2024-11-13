@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Товар</title>
+    <link rel="stylesheet" href="../styles_css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Магазин "Всё для вас"</h1>
+        <nav>
+            <ul>
+                <li><a href="main.html">Главная</a></li>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="product-detail">
+        <!-- Детальная информация о товаре будет загружена сюда -->
+    </section>
+
+    <footer>
+        <p>Все права защищены &copy; 2024</p>
+    </footer>
+
+    <script src="catalog.js"></script> <!-- Подключаем файл с данными товаров -->
+    <script>
+        // Функция для загрузки информации о товаре по ID
+        function loadProductDetail() {
+            const productId = new URLSearchParams(window.location.search).get('id');
+            const product = products.find(p => p.id == productId);
+            if (product) {
+                const productDetailSection = document.getElementById('product-detail');
+                productDetailSection.innerHTML = `
+                    <h2>${product.title}</h2>
+                    <img src="${product.image}" alt="Изображение товара ${product.title}" />
+                    <p><strong>Цена:</strong> ${product.price}</p>
+                    <p>${product.description}</p>
+                    <ul>
+                        ${product.characteristics.map(char => `<li>${char}</li>`).join('')}
+                    </ul>
+                `;
+            } else {
+                // Если товара не найдено, показываем сообщение об ошибке
+                document.getElementById('product-detail').innerHTML = "<p>Товар не найден.</p>";
+            }
+        }
+
+        // Загрузим информацию о товаре при загрузке страницы
+        loadProductDetail();
+    </script>
+</body>
+</html>

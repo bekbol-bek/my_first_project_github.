@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин</title>
+    <link rel="stylesheet" href="../styles_css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Магазин "Всё для вас"</h1>
+        <nav>
+            <ul>
+                <li><a href="main.html">Главная</a></li>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+        </nav>
+
+        <!-- Поле поиска -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Поиск товаров..." onkeyup="searchProducts()">
+        </div>
+    </header>
+
+    <section id="catalog">
+        <!-- Товары будут загружаться сюда -->
+    </section>
+
+    <section id="contact">
+        <h2>Контактная информация</h2>
+        <p>Email: info@magazin.com</p>
+        <p>Телефон: +7 123 456 78 90</p>
+        <p>Адрес: г. Москва, ул. Примерная, д. 1</p>
+    </section>
+
+    <footer>
+        <p>Все права защищены &copy; 2024</p>
+    </footer>
+
+    <!-- Подключение JavaScript -->
+    <script src="catalog.js"></script> <!-- Сюда подключаем файл с данными товаров -->
+    <script>
+        // Функция для динамического создания каталога
+        function generateCatalog() {
+            const catalogSection = document.getElementById('catalog');
+            
+            // Очистить каталог перед добавлением новых товаров
+            catalogSection.innerHTML = "";
+
+            // Пройтись по каждому товару и создать HTML элементы
+            products.forEach(product => {
+                const catalogItem = document.createElement('div');
+                catalogItem.classList.add('catalog-item');
+
+                // Создаём HTML структуру для товара
+                catalogItem.innerHTML = `
+                    <a href="product.html?id=${product.id}">
+                        <h3>${product.title}</h3>
+                        <img src="${product.image}" alt="Изображение товара ${product.title}" />
+                        <p>${product.description}</p>
+                    </a>
+                `;
+
+                // Добавить товар в раздел каталога
+                catalogSection.appendChild(catalogItem);
+            });
+        }
+
+        // Вызов функции для генерации каталога товаров
+        generateCatalog();
+
+        // Функция для поиска товаров
+        function searchProducts() {
+            let input = document.getElementById('searchInput');
+            let filter = input.value.toLowerCase(); // Приводим текст к нижнему регистру
+            let catalogItems = document.querySelectorAll('.catalog-item');
+
+            // Проходим по всем товарам и показываем только те, которые соответствуют поисковому запросу
+            catalogItems.forEach(item => {
+                let title = item.querySelector('h3').textContent.toLowerCase();
+                if (title.includes(filter)) {
+                    item.style.display = ''; // Показываем товар
+                } else {
+                    item.style.display = 'none'; // Скрываем товар
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+
+
